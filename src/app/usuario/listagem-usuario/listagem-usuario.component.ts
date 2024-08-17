@@ -11,20 +11,20 @@ import {UsuarioRestService} from "../../shared/services/usuario-rest.service";
   styleUrl: './listagem-usuario.component.scss'
 })
 export class ListagemUsuarioComponent {
-
   usuarios: Usuario[] = [];
+
   constructor(private roteador: Router, private usuarioService: UsuarioRestService) {
-    usuarioService.listar().subscribe(
-        {
-          next: usuariosRetornados => this.usuarios = usuariosRetornados
-        }
-    );
+    usuarioService.listar().subscribe({
+      next: usuariosRetornados => this.usuarios = usuariosRetornados
+    });
   }
 
   remover(usuarioARemover: Usuario) {
-    // this.usuarioService.remover(usuarioARemover);
-    // this.usuarios = this.usuarios.filter(usuario => usuario.id != usuarioARemover.id);
-    // this.roteador.navigate(['listagem-usuarios']);
+    this.usuarioService.remover(usuarioARemover).subscribe({
+      next: () => {
+        this.usuarios = this.usuarios.filter(usuario => usuario.id != usuarioARemover.id);
+      }
+    });
   }
 
   editar(usuarioAEditar: Usuario) {
